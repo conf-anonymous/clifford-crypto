@@ -139,3 +139,5 @@ Obtaining the eigenvalues a multivector:
 `> m.eigenvalues`
 
 `=> [(4.5323662175072155+19.26707741568027i), (-0.5323662175072155-1.2670774156802675i)]`
+
+.
