@@ -210,3 +210,52 @@ Number to random multivector with modulus:
 
 `> m = Clifford::Tools.number_to_random_multivector_mod(n,b,q)`
 `=> 41072e0 + 33223e1 + 42126e2 + 1274e3 + 62091e12 + 52417e13 + 58782e23 + 49587e123`
+
+### Key Exchange Protocol
+
+Let `l` (lambda) be `l=256`. Alice generates her private and public identification:
+
+`> party1 = Clifford::Party.new(l,1)`
+`=> #<Clifford::Party:0x00007fa0fc91e250 @l=256, @i=1, @b=32, @q=4294967311, @pr=4082888592e0 + 2970916432e1 + 3614131966e2 + 3835973787e3 + 3459588553e12 + 2819237312e13 + 3920843807e23 + 4038494032e123, @pu=3844552889e0 + 2856422503e1 + 2647812175e2 + 3988708505e3 + 4023339242e12 + 3519489537e13 + 2334011332e23 + 4085777762e123>`
+
+Bob generates his identification:
+
+`> party2 = Clifford::Party.new(l,2)`
+`=> #<Clifford::Party:0x00007fa0fc906b00 @l=256, @i=2, @b=32, @q=4294967311, @pr=4217437264e0 + 2919379184e1 + 3758189817e2 + 3218512332e3 + 3899930951e12 + 2451174901e13 + 2739387602e23 + 3651382765e123, @pu=3504377994e0 + 2154318858e1 + 2990407714e2 + 4109525169e3 + 2404838778e12 + 2241414388e13 + 4216596680e23 + 3548652449e123>`
+
+Alice computes the public communication identifier between her and Bob:
+
+`> party1.set_public_communication_identifier(party2.pu)`
+`=> 4210356305e0 + 4089303194e1 + 14255468e2 + 529900161e3 + 2901154698e12 + 2157868276e13 + 322773276e23 + 2455086363e123`
+
+Bob computes the public communication identifier between him and Alice:
+
+`> party2.set_public_communication_identifier(party1.pu)`
+`=> 4210356305e0 + 4089303194e1 + 14255468e2 + 529900161e3 + 2901154698e12 + 2157868276e13 + 322773276e23 + 2455086363e123`
+
+Alice computes her subkey:
+
+`> party1.generate_sub_key`
+`=> 18112708e0 + 68617604e1 + 2673310093e2 + 1016875217e3 + 1995411623e12 + 1569928174e13 + 347823432e23 + 1123480071e123`
+
+Bob computes his subkey:
+
+`> party2.generate_sub_key`
+`=> 1160333216e0 + 1302916347e1 + 2392935595e2 + 3572898714e3 + 857440264e12 + 550001767e13 + 3937478375e23 + 2290586975e123`
+
+Alice computes the shated secret key by processing Bob's subkey:
+
+`> party1.exchange(party2.s)`
+`=> 1508356315e0 + 3213603373e1 + 3757510450e2 + 2495228342e3 + 1118860303e12 + 1019561553e13 + 1508301431e23 + 2912177267e123`
+
+Bob computes the shared secret key by processing Alice's subkey:
+
+`> party2.exchange(party1.s)`
+`=> 1508356315e0 + 3213603373e1 + 3757510450e2 + 2495228342e3 + 1118860303e12 + 1019561553e13 + 1508301431e23 + 2912177267e123`
+
+Alice and Bob now shares the same secret key:
+
+`> party1.k`
+`=> 1508356315e0 + 3213603373e1 + 3757510450e2 + 2495228342e3 + 1118860303e12 + 1019561553e13 + 1508301431e23 + 2912177267e123`
+`> party2.k`
+`=> 1508356315e0 + 3213603373e1 + 3757510450e2 + 2495228342e3 + 1118860303e12 + 1019561553e13 + 1508301431e23 + 2912177267e123`
