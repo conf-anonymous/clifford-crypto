@@ -302,3 +302,12 @@ And we can check that `d` is the object with index `3` from the server data:
 
 `> server.data[3]`
 `=> 3429580229e0 + 2749926600e1 + 2173909838e2 + 4224153541e3 + 4207097895e12 + 3873964047e13 + 3107259472e23 + 4195818052e123`
+
+### Hash Algorithm
+
+Let `s = "Clifford geometric algebra"`
+
+Compute the hash value of `s` as follows:
+
+`> Clifford::Hash.new(256,s)`
+`=> fe97a5f31fc86359cea5ff77de2740bd2016b1af7ea0f5f31283a3e31bf7666`

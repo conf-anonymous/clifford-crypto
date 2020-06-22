@@ -1,12 +1,13 @@
 module Clifford
   class Hash
 
-    attr_accessor :l, :s, :q, :v, :m, :r, :hash_value
+    attr_accessor :l, :s, :b, :q, :v, :m, :r, :hash_value
 
     def initialize(l,s)
       @l = l
       @s = s
-      @q = 2**(@l / 8)
+      @b = @l / 8
+      @q = 2**(@b)
       @r = 20
 
       preprocessing
@@ -30,7 +31,7 @@ module Clifford
 
     def create_m
       n = Tools.s_to_n(s)
-      Tools.number_to_multivector_mod(n,q)
+      Tools.number_to_multivector_mod(n,b,q)
     end
 
     def preprocessing
