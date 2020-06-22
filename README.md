@@ -311,3 +311,20 @@ Compute the hash value of `s` as follows:
 
 `> Clifford::Hash.new(256,s)`
 `=> fe97a5f31fc86359cea5ff77de2740bd2016b1af7ea0f5f31283a3e31bf7666`
+
+### Private-Key Encryption Scheme
+
+Let `l = 256` and `m_10`, the number we want to encrypt be `> m_10 = 784`. We instantiate the `crypto` object as follows:
+
+`> crypto = Clifford::Crypto.new l`
+`=> #<Clifford::Crypto:0x00007fe9641a12d8 @l=256, @b=32, @q=4294967311, @k=3443407236e0 + 2462326299e1 + 2430435949e2 + 2214413904e3 + 4101620105e12 + 3186336471e13 + 4036216482e23 + 2484149767e123, @r=20>`
+
+Encrypt `m_10`:
+
+`> c = crypto.encrypt(m_10)`
+`=> 1928814270e0 + 2450327391e1 + 742280819e2 + 3744386726e3 + 1432075849e12 + 1021926058e13 + 106172601e23 + 806413551e123`
+
+Decrypt c:
+
+`> crypto.decrypt(c)`
+`=> 784`
